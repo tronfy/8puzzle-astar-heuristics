@@ -7,12 +7,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-// Node aStar(Game start) {
 Node aStar(Game start, int (*h)(Game)) {
   PQueue open = pq_new();
-
-  // LNode closed;
-  // ll_init(&closed);
   HashSet *closed = hs_create(10000);
 
   Node startNode = node_new(NULL, 0);
@@ -22,7 +18,6 @@ Node aStar(Game start, int (*h)(Game)) {
 
   while (!pq_empty(open)) {
     Node board = pq_pop(open);
-    // ll_push(&closed, game_hash(board->state));
     hs_add(closed, game_hash(board->state));
 
     if (game_is_goal(board->state)) {
@@ -34,11 +29,9 @@ Node aStar(Game start, int (*h)(Game)) {
       game_copy(board->state, next);
       if (game_do_action(next, i)) {
         Node child = node_new(board, i);
-        // if (!ll_exists(closed, game_hash(next))) {
         if (!hs_contains(closed, game_hash(next))) {
           child->cost = board->cost + h(next);
           pq_push(open, child);
-          // ll_push(&closed, game_hash(next));
           hs_add(closed, game_hash(next));
         } else {
           node_free(child);

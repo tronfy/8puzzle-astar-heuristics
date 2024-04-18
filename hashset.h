@@ -16,6 +16,5 @@ int hs_hash(int key, int capacity);
 HashSet *hs_create(int capacity);
 void hs_add(HashSet *set, int key);
 int hs_contains(HashSet *set, int key);
-void hs_free(HashSet *set);
 
 #endif
