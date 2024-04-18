@@ -13,7 +13,7 @@ Node aStar(Game start, int (*h)(Game)) {
 
   Node startNode = node_new(NULL, 0);
   game_copy(start, startNode->state);
-  startNode->cost = h(start);
+  startNode->g = h(start);
   pq_push(open, startNode);
 
   while (!pq_empty(open)) {
@@ -30,7 +30,8 @@ Node aStar(Game start, int (*h)(Game)) {
       if (game_do_action(next, i)) {
         Node child = node_new(board, i);
         if (!hs_contains(closed, game_hash(next))) {
-          child->cost = board->cost + h(next);
+          child->g = board->g + 1;
+          child->h = h(next);
           pq_push(open, child);
           hs_add(closed, game_hash(next));
         } else {
@@ -55,11 +56,11 @@ int main() {
 
   printf("Resolvendo com heurística: ");
 
-  // printf("Distância de Manhattan\n");
-  // Node solution = aStar(start, h_manhattan);
+  printf("Distância de Manhattan\n");
+  Node solution = aStar(start, h_manhattan);
 
-  printf("Qtd de peças fora do lugar\n");
-  Node solution = aStar(start, h_misplaced);
+  // printf("Qtd de peças fora do lugar\n");
+  // Node solution = aStar(start, h_misplaced);
 
   int steps = -1;
   while (solution != NULL) {

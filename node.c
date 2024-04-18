@@ -11,10 +11,10 @@ Node node_new(Node parent, int action) {
     game_copy(parent->state, child->state);
     game_do_action(child->state, action);
     child->action = action;
-    child->cost = parent->cost + 1;
+    child->g = parent->g + 1;
   } else {
     child->action = -1;
-    child->cost = 0;
+    child->g = 0;
   }
 
   return child;

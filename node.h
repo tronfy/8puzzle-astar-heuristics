@@ -6,7 +6,8 @@
 struct Node {
   Game state;
   int action;
-  int cost;
+  int g;
+  int h;
   struct Node *parent;
 };
 typedef struct Node *Node;
