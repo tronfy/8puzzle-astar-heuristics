@@ -1,6 +1,7 @@
 #include "game.h"
 #include "heuristics.h"
-#include "list.h"
+// #include "list.h"
+#include "hashset.h"
 #include "node.h"
 #include "pqueue.h"
 
@@ -11,8 +12,9 @@
 Node aStar(Game start, int (*h)(Game)) {
   PQueue open = pq_new();
 
-  LNode closed;
-  ll_init(&closed);
+  // LNode closed;
+  // ll_init(&closed);
+  HashSet *closed = hs_create(876543211);
 
   Node startNode = node_new(NULL, 0);
   game_copy(start, startNode->state);
@@ -21,7 +23,8 @@ Node aStar(Game start, int (*h)(Game)) {
 
   while (!pq_empty(open)) {
     Node board = pq_pop(open);
-    ll_push(&closed, game_hash(board->state));
+    // ll_push(&closed, game_hash(board->state));
+    hs_add(closed, game_hash(board->state));
 
     if (game_is_goal(board->state)) {
       return board;
@@ -32,10 +35,12 @@ Node aStar(Game start, int (*h)(Game)) {
       game_copy(board->state, next);
       if (game_do_action(next, i)) {
         Node child = node_new(board, i);
-        if (!ll_exists(closed, game_hash(next))) {
+        // if (!ll_exists(closed, game_hash(next))) {
+        if (!hs_contains(closed, game_hash(next))) {
           child->cost = board->cost + h(next);
           pq_push(open, child);
-          ll_push(&closed, game_hash(next));
+          // ll_push(&closed, game_hash(next));
+          hs_add(closed, game_hash(next));
         } else {
           node_free(child);
         }

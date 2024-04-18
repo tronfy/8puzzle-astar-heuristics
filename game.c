@@ -118,19 +118,6 @@ int game_hash(Game g) {
   return hash;
 }
 
-// int game_hash(Game g) {
-//   int hash = 0;
-//   int primes[9] = {2, 3, 5, 7, 11, 13, 17, 19, 23};
-
-//   for (int i = 0; i < 3; i++) {
-//     for (int j = 0; j < 3; j++) {
-//       hash += primes[i * 3 + j] * g->grid[i][j];
-//     }
-//   }
-
-//   return hash;
-// }
-
 void game_print(Game g) {
   for (int i = 0; i < 3; i++) {
     for (int j = 0; j < 3; j++) {
