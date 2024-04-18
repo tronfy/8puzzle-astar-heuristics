@@ -45,14 +45,20 @@ Node aStar(Game start, int (*h)(Game)) {
 
 int main() {
   Game start = game_new();
-  // game_init_random(start);
 
   // game_init(start, (int[]){1, 2, 5, 3, 0, 8, 6, 4, 7}); // 6 passos
   // game_init(start, (int[]){0, 2, 5, 1, 3, 8, 6, 4, 7}); // 8 passos
   // game_init(start, (int[]){0, 4, 2, 1, 8, 5, 3, 7, 6}); // 16 passos
   game_init(start, (int[]){7, 6, 0, 5, 1, 2, 8, 4, 3}); // 26 passos
 
+  // game_init_random(start);
+
   game_print(start);
+
+  if (!game_is_solvable(start)) {
+    printf("Não é solucionável (número ímpar de inversões)\n");
+    return 1;
+  }
 
   printf("Resolvendo com heurística: ");
 

@@ -127,3 +127,26 @@ void game_print(Game g) {
   }
   printf("\n");
 }
+
+int game_is_solvable(Game g) {
+  int inversions = 0;
+  int grid[9];
+  int k = 0;
+
+  for (int i = 0; i < 3; i++)
+    for (int j = 0; j < 3; j++)
+      grid[k++] = g->grid[i][j];
+
+  for (int i = 0; i < 9; i++) {
+    if (grid[i] == 0)
+      continue;
+    for (int j = i + 1; j < 9; j++) {
+      if (grid[j] == 0)
+        continue;
+      if (grid[i] > grid[j])
+        inversions++;
+    }
+  }
+
+  return inversions % 2 == 0;
+}
